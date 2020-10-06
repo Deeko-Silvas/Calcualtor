@@ -5,37 +5,55 @@ import Buttons from './buttons';
 import buttonDetails from './buttonDetails';
 
 const App = () => {
-  const [displayNum, setDisplayNum] = useState("0")
+  const [displayNum, setDisplayNum] = useState("0");
   const [currentNum, setCurrentNum] = useState("0");
+  const [incNum, setIncNum] = useState(0);
   const [secondOperand, setSecondOperand] = useState(false);
+  const [secondOperator, setSecondOperator] = useState(false);
   const [totalNum, setTotalNum] = useState(0);
   const [operator, setOperator] = useState();
   const [memory, setMemory] = useState(0);
+  const [enableDelete, setEnableDelete] = useState(true)
 
   const isInitialMount = useRef(true);
 
   const buttonClicked = ( i ) => {
     if (buttonDetails[i].type === "operand") {
+      setEnableDelete(true);
       if (secondOperand) {
         setCurrentNum(currentNum + buttonDetails[i].text)
-        // setCurrentNum(currentNum + buttonDetails[i].text)
       } else {
         setCurrentNum(buttonDetails[i].text);
         setSecondOperand(true);
+        setSecondOperator(false);
       }
     } else if (buttonDetails[i].type === "operator") {
-      setTotalNum(currentNum);
-      runOperator();
-      setOperator(buttonDetails[i].out);
-      setSecondOperand(false);
+      setEnableDelete(false);
+      if (secondOperator) {
+        let o = operator + buttonDetails[i].out
+        if (o.length > 2) {
+          o = o.substring(1);
+        }
+        setOperator(o)
+      } else {
+        setTotalNum(currentNum);
+        runOperator();
+        setOperator(buttonDetails[i].out);
+        setSecondOperand(false);
+        setSecondOperator(true);
+      }
     } else if (buttonDetails[i].type === "function") {
       buttonFuncs(buttonDetails[i].out);
       setSecondOperand(false);
+      setSecondOperator(false);
     } else if (buttonDetails[i].type === "equals") {
+      setEnableDelete(false)
       runOperator();
-      setOperator(null);
-      setCurrentNum(0);
-      setSecondOperand(false);
+      if (!secondOperator) {
+        setOperator(null);
+        setCurrentNum(0);
+        setSecondOperand(false);
+      }
     }
   }
 
@@ -43,10 +61,8 @@ const App = () => {
     if (operator) {
       switch(operator) {
         case "%":
-          console.log("percent");
           break;
         case "sqrt":
-          console.log("square root");
           setTotalNum(Math.sqrt(currentNum));
           break;
         case "square":
@@ -54,7 +70,6 @@ const App = () => {
           setTotalNum(Number(currentNum) * Number(currentNum));
           break;
         case "/":
-          console.log("divide");
           setTotalNum(Number(totalNum) / Number(currentNum));
           break;
         case "*":
@@ -66,9 +81,36 @@ const App = () => {
         case "+":
           setTotalNum(Number(totalNum) + Number(currentNum))  
           break;
+        case "++":
+          checkIncNum();
+          setTotalNum(Number(totalNum) + incNum);  
+          break;
+        case "--":
+          checkIncNum();
+          setTotalNum(Number(totalNum) - incNum);  
+          break;
+        case "**":
+          checkIncNum();
+          if (incNum !== 0) {
+            setTotalNum(Number(totalNum) * incNum);  
+          }
+          break;
+        case "//":
+          checkIncNum();
+          if (incNum !== 0) {
+            setTotalNum(Number(totalNum) / incNum);  
+          }
+          break;
         default:
           //pass
       }
+    }
+  }
+  
+  // Check if inc num is set to 0
+  const checkIncNum = () => {
+    if (incNum === 0) {
+      setIncNum(Number(currentNum));
     }
   }
 
@@ -94,9 +136,12 @@ const App = () => {
         setTotalNum(0);
         setOperator(null);
         setSecondOperand(false);
+        setIncNum(0);
         break;
       case "delete":
-        setCurrentNum(parseInt(currentNum / 10))
+        if (enableDelete) {
+          setCurrentNum(parseInt(currentNum / 10))
+        }
         break;
       case "plusMinus":
         if (Number(currentNum) <= 0) {
@@ -110,27 +155,28 @@ const App = () => {
     } 
   }
 
-  let splitNum
+  let splitNum = [];
   let wholeNum
 
+  //Formats number to screen adding commas and decimals
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
     } else {
-      splitNum = currentNum.toString().split(".");
-      wholeNum = splitNum[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      splitNum[1] ? setDisplayNum((wholeNum + "." + splitNum[1]).slice(0, 10)) : setDisplayNum(wholeNum);
+      if (currentNum === ".") {
+        wholeNum = "0"
+      } else {
+        splitNum = currentNum.toString().split(".");
+        wholeNum = splitNum[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        if (wholeNum.length === 0) {
+          wholeNum = 0;
+        }
+      }
+      splitNum[1] ? setDisplayNum(wholeNum + "." + splitNum[1]) : setDisplayNum(wholeNum + ".");
     }
   }, [currentNum])
 
-  // useEffect(() => {
-  //   if (isInitialMount.current) {
-  //     isInitialMount.current = false;
-  //   } else {
-  //     runOperator();
-  //   }
-  // }, [operator])
-
+  //Set current number to match total number.
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
@@ -139,8 +185,10 @@ const App = () => {
     }
   }, [totalNum])
 
+
+
   return (
-    <div className="calculator-conatiner">
+    <div className="calculator-container">
       <Screen 
         displayNum={displayNum}
       />

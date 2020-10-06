@@ -1,5 +1,7 @@
 .screen {
     height: auto;
+    width: 100%;
+    max-width: 100%;
     color: white;
     font-size: 60px;
     line-height: 1;
@@ -7,6 +9,5 @@
     text-align: right;
     padding: 20px 10px;
     border-bottom: solid 1px lightgrey;
-
-
+    overflow-x: auto;
 }
