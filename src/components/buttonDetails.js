@@ -35,9 +35,9 @@ const buttonDetails = [
       out: "delete"
     },
     {
-      text: "DEL",
+      text: "",
       type: "function",
-      out: "delete"
+      out: "e"
     },
     {
       text: "%",
@@ -136,7 +136,7 @@ const buttonDetails = [
     },
     {
       text: "=",
-      type: "function",
+      type: "equals",
       out: "equals"
     },
     
