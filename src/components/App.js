@@ -8,7 +8,6 @@ const App = () => {
   const [displayNum, setDisplayNum] = useState("0")
   const [currentNum, setCurrentNum] = useState("0");
   const [secondOperand, setSecondOperand] = useState(false);
-  // const [secondOperator, setSecondOperator] = useState(false)
   const [totalNum, setTotalNum] = useState(0);
   const [operator, setOperator] = useState();
   const [memory, setMemory] = useState(0);
@@ -34,6 +33,9 @@ const App = () => {
       setSecondOperand(false);
     } else if (buttonDetails[i].type === "equals") {
       runOperator();
+      setOperator(null);
+      setCurrentNum(0);
+      setSecondOperand(false);
     }
   }
 
@@ -108,12 +110,6 @@ const App = () => {
     } 
   }
 
-  // const numToString = (num) => {
-  //   console.log(num)
-  //   let newNum = num.replace(/,/g, "");
-  //   console.log(newNum)
-  //   setCurrentNum(newNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-  // }
   let splitNum
   let wholeNum
 
