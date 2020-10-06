@@ -45,17 +45,17 @@ const buttonDetails = [
       out: ""
     },
     {
-      text: "SQRT",
+      text: "√",
       type: "operator",
       out: "sqrt"
     },
     {
-      text: "SQ",
+      text: "x2",
       type: "operator",
       out: "square"
     },
     {
-      text: "/",
+      text: "÷",
       type: "operator",
       out: "/"
     },

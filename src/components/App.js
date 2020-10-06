@@ -16,12 +16,8 @@ const App = () => {
   const [enableDelete, setEnableDelete] = useState(true)
   const isInitialMount = useRef(true);
 
-
-
   // Check  which button was clicked.
   const buttonClicked = ( i ) => {
-    console.log(i)
-    console.log(buttonDetails[i].text)
     if (buttonDetails[i].type === "operand") {
       setEnableDelete(true);
       if (secondOperand) {
@@ -68,9 +64,13 @@ const App = () => {
           break;
         case "sqrt":
           setTotalNum(Math.sqrt(currentNum));
+          setOperator(null)
+          setSecondOperator(false)
           break;
         case "square":
           setTotalNum(Number(currentNum) * Number(currentNum));
+          setOperator(null)
+          setSecondOperator(false)
           break;
         case "/":
           setTotalNum(Number(totalNum) / Number(currentNum));
