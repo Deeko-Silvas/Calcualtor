@@ -2,22 +2,22 @@ const buttonDetails = [
     {
       text: "MC",
       type: "function",
-      out: "memClear"
+      out: "memoryClear"
     },
     {
       text: "MR",
       type: "function",
-      out: "memRecall"
+      out: "memoryRecall"
     },
     {
       text: "M+",
       type: "function",
-      out: "memPlus"
+      out: "memoryPlus"
     },
     {
       text: "M-",
       type: "function",
-      out: "memMinus"
+      out: "memoryMinus"
     },
     {
       text: "CE",
