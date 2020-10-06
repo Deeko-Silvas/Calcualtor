@@ -1,1 +1,11 @@
-/* No CSS *//*# sourceMappingURL=screen.css.map */
+.screen {
+  height: auto;
+  color: white;
+  font-size: 60px;
+  line-height: 1;
+  vertical-align: middle;
+  text-align: right;
+  padding: 20px 10px;
+  border-bottom: solid 1px lightgrey;
+}
+/*# sourceMappingURL=screen.css.map */

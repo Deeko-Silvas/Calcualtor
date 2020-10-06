@@ -1,1 +1,8 @@
-/* No CSS *//*# sourceMappingURL=App.css.map */
+.calculator-conatiner {
+  background-color: #212529;
+  height: 100%;
+  width: 100%;
+  max-width: 500px;
+  max-height: 800px;
+}
+/*# sourceMappingURL=App.css.map */

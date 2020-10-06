@@ -13,6 +13,7 @@ const Buttons = ( {buttonDetails, buttonClicked} ) => {
                 <Button 
                     text={button.text}
                     i={i}
+                    type={button.type}
                     buttonClicked={buttonClicked}
                 />
             </React.Fragment>

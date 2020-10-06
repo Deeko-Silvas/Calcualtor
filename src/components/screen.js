@@ -1,9 +1,9 @@
 import React from 'react';
 import './screen.css';
 
-const Screen = ( {currentNum} ) => {
+const Screen = ( {displayNum} ) => {
     return (
-        <h1>{currentNum}</h1>
+        <div className="screen">{displayNum}</div>
     )
 }
 

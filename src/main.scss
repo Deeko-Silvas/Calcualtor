@@ -1,0 +1,16 @@
+body {
+    box-sizing: border-box;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: darkgray;
+    font-family: 'Roboto', sans-serif;
+
+    #root {
+        width: 100%;
+        height: 100%;
+    }
+}
+

@@ -20,6 +20,11 @@ const buttonDetails = [
       out: "memoryMinus"
     },
     {
+      text: "",
+      type: "function",
+      out: ""
+    },
+    {
       text: "CE",
       type: "function",
       out: "clearLast"
@@ -36,13 +41,8 @@ const buttonDetails = [
     },
     {
       text: "",
-      type: "function",
-      out: "e"
-    },
-    {
-      text: "%",
       type: "operator",
-      out: "%"
+      out: ""
     },
     {
       text: "SQRT",

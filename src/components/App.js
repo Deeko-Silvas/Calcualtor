@@ -5,7 +5,8 @@ import Buttons from './buttons';
 import buttonDetails from './buttonDetails';
 
 const App = () => {
-  const [currentNum, setCurrentNum] = useState(0);
+  const [displayNum, setDisplayNum] = useState("0")
+  const [currentNum, setCurrentNum] = useState("0");
   const [secondOperand, setSecondOperand] = useState(false);
   // const [secondOperator, setSecondOperator] = useState(false)
   const [totalNum, setTotalNum] = useState(0);
@@ -18,6 +19,7 @@ const App = () => {
     if (buttonDetails[i].type === "operand") {
       if (secondOperand) {
         setCurrentNum(currentNum + buttonDetails[i].text)
+        // setCurrentNum(currentNum + buttonDetails[i].text)
       } else {
         setCurrentNum(buttonDetails[i].text);
         setSecondOperand(true);
@@ -37,9 +39,6 @@ const App = () => {
 
   const runOperator = () => {
     if (operator) {
-      console.log(operator);
-      console.log(totalNum);
-      console.log(currentNum);
       switch(operator) {
         case "%":
           console.log("percent");
@@ -66,14 +65,10 @@ const App = () => {
           setTotalNum(Number(totalNum) + Number(currentNum))  
           break;
         default:
-          console.log("default");
+          //pass
       }
     }
   }
-
-  // const equals = () => {
-  //   runOperator();
-  // }
 
   const buttonFuncs = ( out ) => {
     switch(out) {
@@ -81,7 +76,7 @@ const App = () => {
         setMemory(0);
         break;
       case "memoryRecall":
-        setCurrentNum(memory);
+        setCurrentNum(memory)
         break;
       case "memoryPlus":
         setMemory(memory + Number(currentNum))
@@ -90,12 +85,13 @@ const App = () => {
         setMemory(memory - Number(currentNum))
         break;
       case "clearLast":
-        setCurrentNum(0);
+        setCurrentNum("0");
         break;
       case "clearAll":
-        setCurrentNum(0);
+        setCurrentNum("0");
         setTotalNum(0);
-        setOperator();
+        setOperator(null);
+        setSecondOperand(false);
         break;
       case "delete":
         setCurrentNum(parseInt(currentNum / 10))
@@ -104,13 +100,32 @@ const App = () => {
         if (Number(currentNum) <= 0) {
           setCurrentNum(Math.abs(currentNum))
         } else {
-          setCurrentNum("-" + currentNum);
+          setCurrentNum("-" + currentNum)
         }
         break;
       default:
-        console.log("default");
+        //pass
     } 
   }
+
+  // const numToString = (num) => {
+  //   console.log(num)
+  //   let newNum = num.replace(/,/g, "");
+  //   console.log(newNum)
+  //   setCurrentNum(newNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+  // }
+  let splitNum
+  let wholeNum
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else {
+      splitNum = currentNum.toString().split(".");
+      wholeNum = splitNum[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      splitNum[1] ? setDisplayNum((wholeNum + "." + splitNum[1]).slice(0, 10)) : setDisplayNum(wholeNum);
+    }
+  }, [currentNum])
 
   // useEffect(() => {
   //   if (isInitialMount.current) {
@@ -129,9 +144,9 @@ const App = () => {
   }, [totalNum])
 
   return (
-    <div className="app-conatiner">
+    <div className="calculator-conatiner">
       <Screen 
-        currentNum={currentNum}
+        displayNum={displayNum}
       />
       <Buttons 
         buttonDetails={buttonDetails}

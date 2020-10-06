@@ -1,0 +1,21 @@
+.btn {
+    color: White;
+    background-color: #6C757D;
+    height: 70px;
+    font-size: 30px;
+    outline: none;
+
+
+    &.operator,
+    &.equals {
+        background-color: #495057;
+    }
+
+    &.function {
+        background-color: #343A40;
+    }
+
+    &:hover {
+        filter: brightness(1.2);
+    }
+}
