@@ -14,10 +14,14 @@ const App = () => {
   const [operator, setOperator] = useState();
   const [memory, setMemory] = useState(0);
   const [enableDelete, setEnableDelete] = useState(true)
-
   const isInitialMount = useRef(true);
 
+
+
+  // Check  which button was clicked.
   const buttonClicked = ( i ) => {
+    console.log(i)
+    console.log(buttonDetails[i].text)
     if (buttonDetails[i].type === "operand") {
       setEnableDelete(true);
       if (secondOperand) {
@@ -51,12 +55,12 @@ const App = () => {
       runOperator();
       if (!secondOperator) {
         setOperator(null);
-        setCurrentNum(0);
         setSecondOperand(false);
       }
     }
   }
 
+  // Operator buttons
   const runOperator = () => {
     if (operator) {
       switch(operator) {
@@ -66,7 +70,6 @@ const App = () => {
           setTotalNum(Math.sqrt(currentNum));
           break;
         case "square":
-          console.log("square");
           setTotalNum(Number(currentNum) * Number(currentNum));
           break;
         case "/":
@@ -114,6 +117,7 @@ const App = () => {
     }
   }
 
+  // Function buttons
   const buttonFuncs = ( out ) => {
     switch(out) {
       case "memoryClear":
@@ -185,6 +189,43 @@ const App = () => {
     }
   }, [totalNum])
 
+  // Handle keypress
+  const downHandler = (e) => {
+    let key;  
+    buttonDetails.forEach((button, index) => {
+      if (e.key === button.text) {
+        key = index;
+      }})
+    if (key) {
+      buttonClicked(key);
+      return;
+    }
+    switch (e.key) {
+      case "Delete":
+        buttonClicked(7);
+        break;
+     case "Backspace":
+        buttonClicked(7);
+        break;
+      case "Enter":
+        buttonClicked(27);
+        break;
+      case "*":
+          buttonClicked(15);
+          break;
+      default: 
+        //pass
+    }
+  }
+
+  //Detect keypress
+  useEffect(() => {
+    
+    window.addEventListener('keydown', downHandler);
+    return () => {
+      window.removeEventListener('keydown', downHandler);
+    };
+  })
 
 
   return (
